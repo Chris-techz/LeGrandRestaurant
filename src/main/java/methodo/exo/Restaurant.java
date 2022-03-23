@@ -28,6 +28,7 @@ public class Restaurant {
         }
     }
 
+    //ctor quand un restaurant ouvre avec un nombre donné de serveurs
     public Restaurant(int nbServeurs) {
         this._chiffreAffaireRestaurant = 0;
         this._serveurs = new ArrayList<Serveur>();
@@ -36,5 +37,22 @@ public class Restaurant {
         for (int i = 0; i < nbServeurs; i++) {
             this._serveurs.add(new Serveur());
         }
+    }
+
+    //ctor quand un restaurant ouvre sans serveur
+    public Restaurant() {
+        this._chiffreAffaireRestaurant = 0;
+        this._serveurs = new ArrayList<Serveur>();
+    }
+
+    public void SetNbServeurs(int nbServeurs) {
+        _serveurs.clear();
+        for (int i = 0; i < nbServeurs; i++) {
+            this._serveurs.add(new Serveur());
+        }
+    }
+
+    public void ResetCA() {
+        this._chiffreAffaireRestaurant = 0;
     }
 }
