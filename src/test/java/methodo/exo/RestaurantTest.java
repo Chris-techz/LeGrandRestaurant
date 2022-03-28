@@ -16,7 +16,7 @@ public class RestaurantTest {
         // QUAND tous les serveurs prennent une commande d'un montant Y
         // gestion d'erreur, car accès a un serveur qui n'existe pas
         try {
-            mcDonnalds.GetServeur(0).PrendreCommande(commande);
+            mcDonnalds.TousLesServeursPrennentCommande(commande);
         } catch (Exception e) {
             // ALORS le chiffre d'affaires du restaurant est X * Y
             assertEquals("is C.A == X*Y ?", commande * nbServeurs, mcDonnalds.GetChiffreAffaire(), 0);
@@ -32,7 +32,7 @@ public class RestaurantTest {
         kfc.TousLesServeursPrennentCommande(commande);
 
         // ALORS le chiffre d'affaires du restaurant est X * Y
-        assertEquals("is C.A == X*Y ?", kfc.GetNbServeurs()*commande, kfc.GetChiffreAffaire(), 0);
+        assertEquals("is C.A == X*Y ?", kfc.GetServeurs().size()*commande, kfc.GetChiffreAffaire(), 0);
 
     }
 
@@ -45,7 +45,7 @@ public class RestaurantTest {
         quick.TousLesServeursPrennentCommande(commande);
 
         // ALORS le chiffre d'affaires du restaurant est X * Y
-        assertEquals("is C.A == X*Y ?", quick.GetNbServeurs()*commande, quick.GetChiffreAffaire(), 0);
+        assertEquals("is C.A == X*Y ?", quick.GetServeurs().size()*commande, quick.GetChiffreAffaire(), 0);
 
     }
 
@@ -58,7 +58,7 @@ public class RestaurantTest {
         quick.TousLesServeursPrennentCommande(commande);
 
         // ALORS le chiffre d'affaires du restaurant est X * Y
-        assertEquals("is C.A == X*Y ?", quick.GetNbServeurs()*commande, quick.GetChiffreAffaire(), 0);
+        assertEquals("is C.A == X*Y ?", quick.GetServeurs().size()*commande, quick.GetChiffreAffaire(), 0);
 
     }
 
