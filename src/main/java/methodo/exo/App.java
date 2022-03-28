@@ -5,20 +5,22 @@ public class App
 {
     public static void main( String[] args )
     {
-        int nbTables = 3;
-        int nbServeurs = 2;
-        Restaurant burgerKing = new Restaurant(nbServeurs);
+        int indexPlat = 0;
+        double prix = 5.5;
+        Franchise mcDonnalds = new Franchise();
+        Restaurant resto = new Restaurant(mcDonnalds);
+        Plat pates = new Plat(indexPlat, prix );
 
-        burgerKing.SetTables(nbTables);
-        burgerKing.AssigneTableServeur(0, 0);
+        resto.AddPlat(pates);
 
-        // ET ayant débuté son service
-        burgerKing.DebutService();
+        // ET une franchise définissant un menu ayant le même plat
+        mcDonnalds.AddPlat(pates);
 
-        // QUAND le service se termine
-        burgerKing.FinService();
+        // 	QUAND la franchise modifie le prix du plat
+        double newPrix = 7.5;
+        mcDonnalds.ModifPrixPlat(indexPlat, newPrix);
 
-        // ET que cette table est assignée a un second serveur
-        burgerKing.AssigneTableServeur(1, 0);
+        resto.GetMenu().get(indexPlat).getPrix();
+        
     }
 }

@@ -16,7 +16,7 @@ public class DebutServiceTest {
         kfc.AssigneTableMaitre();
 
         // QUAND le service commence
-        kfc.DebutService();
+        kfc.DebutService(true);
         
         // ALORS elles sont toutes affectées au maitre d'hotel
         assertEquals(nbTables, kfc.GetMaitre().GetNbTables());
@@ -35,10 +35,10 @@ public class DebutServiceTest {
         mcDonnalds.AssigneTableMaitre();
         
         // QUAND le service débute
-        mcDonnalds.DebutService();
+        mcDonnalds.DebutService(true);
 
         // ALORS cette table est toujours affecée au serveur et les deux autres au maître d'hotel
-        assertEquals(1, mcDonnalds.GetServeurs().get(0).GetNbTables());
+        assertEquals(1, mcDonnalds.GetServeurs().get(0).GetTables().size());
         assertEquals(2, mcDonnalds.GetMaitre().GetNbTables());
     }
 
@@ -53,13 +53,13 @@ public class DebutServiceTest {
         mcDonnalds.AssigneTableServeur(0, 0);
 
         // QUAND le service débute
-        mcDonnalds.DebutService();
+        mcDonnalds.DebutService(true);
 
         // ALORS il n'est pas possible de modifier le serveur affecté aux tables
         try {
             mcDonnalds.AssigneTableServeur(1, 0);
         } catch (Exception e) {
-            assertEquals(0, mcDonnalds.GetServeurs().get(1).GetNbTables());
+            assertEquals(0, mcDonnalds.GetServeurs().get(1).GetTables().size());
         }
     }
 
@@ -75,7 +75,7 @@ public class DebutServiceTest {
         burgerKing.AssigneTableMaitre();
 
         // ET ayant débuté son service
-        burgerKing.DebutService();
+        burgerKing.DebutService(true);
 
         // QUAND le service se termine
         burgerKing.FinService();

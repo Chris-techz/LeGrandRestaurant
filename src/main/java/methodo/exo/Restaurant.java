@@ -7,11 +7,17 @@ public class Restaurant {
     private int _nbTables;
     private double _chiffreAffaireRestaurant;
     private List <Table> _tables;
+    private List <Table> _tablesOccupees;
     private MaitreHotel _maitreHotel;
     private List <Serveur>_serveurs;
+    private List <Commande>_commandesATransmettre;
+    private Franchise _franchise;
+    private List<Plat> _menu;
+    private Cuisine _cuisine;
 
-    public void DebutService() {
-        this._tables = null;
+    public void DebutService(boolean aDesEmployees) {
+        if (aDesEmployees)
+            this._tables = null;
     }
 
     public void FinService() {
@@ -66,15 +72,19 @@ public class Restaurant {
         }
     }
 
-    public void SetNbServeurs(int nbServeurs) {
+    public void SetServeurs(int nbServeurs) {
         _serveurs.clear();
         for (int i = 0; i < nbServeurs; i++) {
-            this._serveurs.add(new Serveur());
+            this._serveurs.add(new Serveur(this));
         }
     }
     
     public MaitreHotel GetMaitre() {
         return this._maitreHotel;
+    }
+
+    public List<Table> getTables() {
+        return this._tables;
     }
 
     public void SetTables(int nbTables) {
@@ -84,6 +94,16 @@ public class Restaurant {
         for (int i = 0; i < nbTables; i++) {
             this._tables.add(new Table(i));
         }
+    }
+
+    public void SetTableOccupee(int indexTable) {
+        this._tablesOccupees.add(this._tables.get(indexTable));
+        this._tables.remove(indexTable);
+    }
+
+    public void LibereTable(int indexTable) {
+        this._tables.add(this._tablesOccupees.get(indexTable));
+        this._tablesOccupees.remove(indexTable);
     }
 
     public double GetChiffreAffaire() {
@@ -98,12 +118,16 @@ public class Restaurant {
         this._nbTables = 0;
         this._chiffreAffaireRestaurant = 0;
         this._tables = new ArrayList<Table>();
+        this._tablesOccupees = new ArrayList<Table>();
         this._maitreHotel = new MaitreHotel();
         this._serveurs = new ArrayList<Serveur>();
+        this._commandesATransmettre = new ArrayList<Commande>();
+        this._menu = new ArrayList<Plat>();
+        this._cuisine = new Cuisine();
 
         // Ajout d'un nombre donné de serveurs
         for (int i = 0; i < nbServeurs; i++) {
-            this.GetServeurs().add(new Serveur());
+            this._serveurs.add(new Serveur(this));
         }
     }
 
@@ -111,12 +135,57 @@ public class Restaurant {
     public Restaurant() {
         this._chiffreAffaireRestaurant = 0;
         this._tables = new ArrayList<Table>();
+        this._tablesOccupees = new ArrayList<Table>();
         this._maitreHotel = new MaitreHotel();
         this._serveurs = new ArrayList<Serveur>();
+        this._commandesATransmettre = new ArrayList<Commande>();
+        this._menu = new ArrayList<Plat>();
+        this._cuisine = new Cuisine();
+    }
+
+    // ctor bricolage
+    public Restaurant(Franchise franchise) {
+        this._chiffreAffaireRestaurant = 0;
+        this._tables = new ArrayList<Table>();
+        this._tablesOccupees = new ArrayList<Table>();
+        this._maitreHotel = new MaitreHotel();
+        this._serveurs = new ArrayList<Serveur>();
+        this._commandesATransmettre = new ArrayList<Commande>();
+        this._franchise = franchise;
+        this._menu = new ArrayList<Plat>();
+        this._cuisine = new Cuisine();
     }
 
     public void ResetCA() {
         this._chiffreAffaireRestaurant = 0;
     }
 
+    public List<Commande> GetCommandesATransmettre() {
+        return this._commandesATransmettre;
+    }
+    
+    public void AddCommandeATranmettre(Commande commande) {
+        this._commandesATransmettre.add(commande);
+    }
+
+    public void TransmettreCommande(int indexCommande) {
+        this._commandesATransmettre.get(indexCommande).SetTransmise();
+        this._commandesATransmettre.remove(_commandesATransmettre.get(indexCommande));
+    }
+
+    public List<Plat> GetMenu() {
+        List<Plat> menuComplet = new ArrayList<Plat>();
+        menuComplet.addAll(this._menu);
+        menuComplet.addAll(this._franchise.GetMenu());
+        return menuComplet;
+    }
+
+    public void AddPlat(Plat platToAdd) {
+        Plat plat = new Plat(platToAdd.getId(), platToAdd.getPrix());
+        this._menu.add(plat);
+    }
+
+    public Cuisine GetCuisine() {
+        return this._cuisine;
+    }
 }

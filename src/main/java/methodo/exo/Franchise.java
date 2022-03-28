@@ -6,6 +6,7 @@ import java.util.List;
 public class Franchise {
     private List<Restaurant>_restaurants;  
     private double _chiffreAffaireFranchise;
+    private List<Plat>_plats;
 
     public double GetChiffreAffaire() {
         for (int i = 0; i < _restaurants.size(); i++) {
@@ -30,7 +31,7 @@ public class Franchise {
 
     private void SetNbServeursTousLesRestaurant(int nbServeurs) {
         for (Restaurant restaurant : _restaurants) {
-            restaurant.SetNbServeurs(nbServeurs);
+            restaurant.SetServeurs(nbServeurs);
         }
     }
 
@@ -42,6 +43,12 @@ public class Franchise {
         for(int i = 0; i < nbRestaurants; i++) {
             this._restaurants.add(new Restaurant());
         }
+    }
+
+    public Franchise() {
+        this._chiffreAffaireFranchise = 0;
+        this._restaurants = new ArrayList<Restaurant>();
+        this._plats = new ArrayList<Plat>();
     }
 
     // Reset le C.A de la frachise et de ses restaurants
@@ -58,5 +65,18 @@ public class Franchise {
         this.ResetCA();
         this.SetNbServeursTousLesRestaurant(nbServeurs);
         this.TousLesRestosPrennentCommande(commande);
+    }
+
+    public void AddPlat(Plat platToAdd) {
+        Plat plat = new Plat(platToAdd.getId(), platToAdd.getPrix());
+        this._plats.add(plat);
+    }
+
+    public void ModifPrixPlat(int indexPlat, double nouveauPrix) {
+        this._plats.get(indexPlat).setPrix(nouveauPrix);
+    }
+
+    public List<Plat> GetMenu() {
+        return _plats;
     }
 }
